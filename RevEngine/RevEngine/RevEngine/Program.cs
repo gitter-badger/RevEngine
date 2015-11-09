@@ -1,8 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Windows;
+using OpenGL4NET;
+using System.Windows.Forms;
 
 namespace RevEngine
 {
@@ -10,10 +9,21 @@ namespace RevEngine
     {
         static void Main(string[] args)
         {
+            /*
+            Program engine = new Program();
+            engine.Init();
+            */
             Console.WriteLine("Hello world!");
             Console.Beep();
-            Console.ReadKey();
             //Lets get started!!
+
+        }
+        void Init()
+        {
+            Form window = new Form();
+            RenderingContext rc = RenderingContext.CreateContext(window);
+            window.Show();
+            //this.SetStyle(ControlStyles.AllPaintingInWmPaint, true);
         }
     }
 }
