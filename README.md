@@ -1,4 +1,7 @@
 # RevEngine
-A not so REVolutionary ENGINE
+##A not so REVolutionary ENGINE
 
-using OpenGL4NET http://sourceforge.net/p/ogl4net/
+
+using TAO - http://sourceforge.net/projects/taoframework/ (this might be outdated, idc >:)   )
+
+FreeGLUT documentation - http://freeglut.sourceforge.net/docs/api.php
