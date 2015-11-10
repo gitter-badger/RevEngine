@@ -1,11 +1,14 @@
 ﻿using System;
 using Tao.OpenGl;
 using Tao.FreeGlut;
+using System.Windows.Forms;
+using System.Threading;
 
 namespace RevEngine
 {
     class Program
     {
+        public static bool boot = false;
         public static bool fullscreen = false;
         static void init_graphics()
         {
@@ -38,32 +41,37 @@ namespace RevEngine
 
         static void Main()
         {
+
+                Form Form1 = new Form1();
+                Application.Run(Form1);
             Console.WriteLine(@"  _____            ______             _            ");
-            Console.WriteLine(@" |  __ \          |  ____|           (_)           ");
-            Console.WriteLine(@" | |__) |_____   _| |__   _ __   __ _ _ _ __   ___ ");
-            Console.WriteLine(@" |  _  // _ \ \ / /  __| | '_ \ / _` | | '_ \ / _ \");
-            Console.WriteLine(@" | | \ \  __/\ V /| |____| | | | (_| | | | | |  __/");
-            Console.WriteLine(@" |_|  \_\___| \_/ |______|_| |_|\__, |_|_| |_|\___|");
-            Console.WriteLine(@"                                 __/ |             ");
-            Console.WriteLine(@"                                |___/              ");
-            Console.WriteLine(@"                             RevEngine by Naamloos!");
-            Console.WriteLine(@" ");
-            Console.WriteLine("Initializing GLUT");
-            Glut.glutInit();
-            Console.WriteLine("Setting Window Size");
-            Glut.glutInitWindowSize(1080, 720);
-            Console.WriteLine("Creating Window");
-            Glut.glutCreateWindow("Rev");
-            Console.WriteLine("Initializing Graphics");
-            init_graphics();
-            Console.WriteLine("Rendering Screen");
-            Glut.glutDisplayFunc(on_display);
-            Console.WriteLine("Setting Perspective etc");
-            Glut.glutReshapeFunc(on_reshape);
-            Console.WriteLine("Starting Key Reader");
-            Glut.glutKeyboardFunc(keyfunc);
-            Console.WriteLine("Entering Main Loop");
-            Glut.glutMainLoop();
+                Console.WriteLine(@" |  __ \          |  ____|           (_)           ");
+                Console.WriteLine(@" | |__) |_____   _| |__   _ __   __ _ _ _ __   ___ ");
+                Console.WriteLine(@" |  _  // _ \ \ / /  __| | '_ \ / _` | | '_ \ / _ \");
+                Console.WriteLine(@" | | \ \  __/\ V /| |____| | | | (_| | | | | |  __/");
+                Console.WriteLine(@" |_|  \_\___| \_/ |______|_| |_|\__, |_|_| |_|\___|");
+                Console.WriteLine(@"                                 __/ |             ");
+                Console.WriteLine(@"                                |___/              ");
+                Console.WriteLine(@"             RevEngine (debug version) by Naamloos!");
+                Console.WriteLine(@" ");
+                Console.WriteLine(@" ");
+                Console.WriteLine("Initializing GLUT");
+                Glut.glutInit();
+                Console.WriteLine("Setting Window Size");
+                Glut.glutInitWindowSize(1080, 720);
+                Console.WriteLine("Creating Window");
+                Glut.glutCreateWindow("Rev");
+                Console.WriteLine("Initializing Graphics");
+                init_graphics();
+                Console.WriteLine("Rendering Screen");
+                Glut.glutDisplayFunc(on_display);
+                Console.WriteLine("Setting Perspective etc");
+                Glut.glutReshapeFunc(on_reshape);
+                Console.WriteLine("Starting Key Reader");
+                Glut.glutKeyboardFunc(keyfunc);
+                Console.WriteLine("Entering Main Loop");
+                Glut.glutMainLoop();
+
         }
 
         private static void keyfunc(byte key, int x, int y)
