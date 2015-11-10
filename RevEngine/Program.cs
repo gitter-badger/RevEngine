@@ -43,8 +43,6 @@ namespace RevEngine
             Glut.glutInit();
             Console.WriteLine("Setting Window Size");
             Glut.glutInitWindowSize(1080, 720);
-            Console.WriteLine("Setting Window Position");
-            Glut.glutPositionWindow(0, 0);
             Console.WriteLine("Creating Window");
             Glut.glutCreateWindow("Rev");
             Console.WriteLine("Initializing Graphics");
@@ -62,7 +60,7 @@ namespace RevEngine
         private static void keyfunc(byte key, int x, int y)
         {
             // press space to exit!
-            if (key == ' ')
+            if (key == 'q')
             {
                 Console.WriteLine("Stopping Program");
                 Environment.Exit(0);
