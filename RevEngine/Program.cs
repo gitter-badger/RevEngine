@@ -38,7 +38,16 @@ namespace RevEngine
 
         static void Main()
         {
-            Console.WriteLine("I am an adult now, I'm growing up.");
+            Console.WriteLine(@"  _____            ______             _            ");
+            Console.WriteLine(@" |  __ \          |  ____|           (_)           ");
+            Console.WriteLine(@" | |__) |_____   _| |__   _ __   __ _ _ _ __   ___ ");
+            Console.WriteLine(@" |  _  // _ \ \ / /  __| | '_ \ / _` | | '_ \ / _ \");
+            Console.WriteLine(@" | | \ \  __/\ V /| |____| | | | (_| | | | | |  __/");
+            Console.WriteLine(@" |_|  \_\___| \_/ |______|_| |_|\__, |_|_| |_|\___|");
+            Console.WriteLine(@"                                 __/ |             ");
+            Console.WriteLine(@"                                |___/              ");
+            Console.WriteLine(@"                             RevEngine by Naamloos!");
+            Console.WriteLine(@" ");
             Console.WriteLine("Initializing GLUT");
             Glut.glutInit();
             Console.WriteLine("Setting Window Size");
