@@ -6,22 +6,24 @@ namespace RevEngine
 {
     class Program
     {
+        public int cx = 0;
+        public int cy = 0;
         static void init_graphics()
         {
             Gl.glEnable(Gl.GL_LIGHTING);
             Gl.glEnable(Gl.GL_LIGHT0);
-            float[] light_pos = new float[3] { 1, 0.5F, 1 };
+            float[] light_pos = new float[3] { 0, 1, 3F };
             Gl.glLightfv(Gl.GL_LIGHT0, Gl.GL_POSITION, light_pos);
             Gl.glEnable(Gl.GL_DEPTH_TEST);
-            Gl.glClearColor(0, 0, 0, 1);
+            Gl.glClearColor(0, 0, 0, 0);
         }
 
         static void on_display()
         {
             Gl.glClear(Gl.GL_COLOR_BUFFER_BIT | Gl.GL_DEPTH_BUFFER_BIT);
             Gl.glLoadIdentity();
-            Glu.gluLookAt(0, 0, 5, 0, 0, 1, 0, 1, 0);
-            Glut.glutSolidTeapot(1);
+            Glu.gluLookAt(0, 0, 5, 0, 0, 1, 0, 5, 0);
+            Glut.glutSolidIcosahedron();
             
             Glut.glutSwapBuffers();
         }
