@@ -6,8 +6,7 @@ namespace RevEngine
 {
     class Program
     {
-        public int cx = 0;
-        public int cy = 0;
+        public static bool fullscreen = false;
         static void init_graphics()
         {
             Gl.glEnable(Gl.GL_LIGHTING);
@@ -39,22 +38,24 @@ namespace RevEngine
 
         static void Main()
         {
-            Console.WriteLine("I am the console! i love bacon and boobies! ghehehe");
-            Console.WriteLine("initializing...");
+            Console.WriteLine("I am an adult now, I'm growing up.");
+            Console.WriteLine("Initializing GLUT");
             Glut.glutInit();
-            Console.WriteLine("setting window size...");
+            Console.WriteLine("Setting Window Size");
             Glut.glutInitWindowSize(1080, 720);
-            Console.WriteLine("creating window...");
-            Glut.glutCreateWindow("RevEngine TEST PHASE");
-            Console.WriteLine("initializing graphics...");
+            Console.WriteLine("Setting Window Position");
+            Glut.glutPositionWindow(0, 0);
+            Console.WriteLine("Creating Window");
+            Glut.glutCreateWindow("Rev");
+            Console.WriteLine("Initializing Graphics");
             init_graphics();
-            Console.WriteLine("displaying stuff...");
+            Console.WriteLine("Rendering Screen");
             Glut.glutDisplayFunc(on_display);
-            Console.WriteLine("reshaping stuff...");
+            Console.WriteLine("Setting Perspective etc");
             Glut.glutReshapeFunc(on_reshape);
-            Console.WriteLine("starting game thread...");
+            Console.WriteLine("Starting Key Reader");
             Glut.glutKeyboardFunc(keyfunc);
-            Console.WriteLine("entering main loop...");
+            Console.WriteLine("Entering Main Loop");
             Glut.glutMainLoop();
         }
 
@@ -63,8 +64,21 @@ namespace RevEngine
             // press space to exit!
             if (key == ' ')
             {
-                Console.WriteLine("Goodbye my master!");
+                Console.WriteLine("Stopping Program");
                 Environment.Exit(0);
+            }
+            if (key == 'f')
+            {
+                if (!fullscreen)
+                {
+                    Glut.glutFullScreen();
+                    fullscreen = true;
+                }
+                if (fullscreen)
+                {
+                    Glut.glutReshapeWindow(1080, 720);
+                    fullscreen = false;
+                }
             }
         }
     }
