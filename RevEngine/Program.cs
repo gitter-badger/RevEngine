@@ -13,7 +13,7 @@ namespace RevEngine
             float[] light_pos = new float[3] { 1, 0.5F, 1 };
             Gl.glLightfv(Gl.GL_LIGHT0, Gl.GL_POSITION, light_pos);
             Gl.glEnable(Gl.GL_DEPTH_TEST);
-            Gl.glClearColor(1, 1, 1, 1);
+            Gl.glClearColor(0, 0, 0, 1);
         }
 
         static void on_display()
@@ -22,6 +22,7 @@ namespace RevEngine
             Gl.glLoadIdentity();
             Glu.gluLookAt(0, 0, 5, 0, 0, 1, 0, 1, 0);
             Glut.glutSolidTeapot(1);
+            
             Glut.glutSwapBuffers();
         }
 
@@ -49,8 +50,20 @@ namespace RevEngine
             Glut.glutDisplayFunc(on_display);
             Console.WriteLine("reshaping stuff...");
             Glut.glutReshapeFunc(on_reshape);
+            Console.WriteLine("starting game thread...");
+            Glut.glutKeyboardFunc(keyfunc);
             Console.WriteLine("entering main loop...");
             Glut.glutMainLoop();
+        }
+
+        private static void keyfunc(byte key, int x, int y)
+        {
+            // press space to exit!
+            if (key == ' ')
+            {
+                Console.WriteLine("Goodbye my master!");
+                Environment.Exit(0);
+            }
         }
     }
 }
