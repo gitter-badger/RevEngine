@@ -30,7 +30,7 @@ namespace RevEngine
             ShowIcon = false;
             ShowInTaskbar = false;
             pictureBox1.Click += leShown;
-            
+
         }
         private void leShown(Object sender, EventArgs e)
         {

@@ -2,12 +2,16 @@
 using Tao.OpenGl;
 using Tao.FreeGlut;
 using System.Windows.Forms;
-using System.Threading;
+using System.Runtime.InteropServices;
 
 namespace RevEngine
 {
+
     class Program
     {
+        [System.Runtime.InteropServices.DllImport("user32.dll")]
+        static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
+        public static string status;
         public static bool boot = false;
         public static bool fullscreen = false;
         static void init_graphics()
@@ -41,9 +45,15 @@ namespace RevEngine
 
         static void Main()
         {
-
+            var currentProcess = System.Diagnostics.Process.GetCurrentProcess();
+            IntPtr hWnd = currentProcess.MainWindowHandle;//FindWindow(null, "Your console windows caption"); //put your console window caption here
+            ShowWindow(hWnd, 0); // 0 = SW_HIDE
+            Console.Title = "Rev Debugging Console" + status;
                 Form Form1 = new Form1();
+            
                 Application.Run(Form1);
+            ShowWindow(hWnd, 3); // 0 = SW_HIDE
+            
             Console.WriteLine(@"  _____            ______             _            ");
                 Console.WriteLine(@" |  __ \          |  ____|           (_)           ");
                 Console.WriteLine(@" | |__) |_____   _| |__   _ __   __ _ _ _ __   ___ ");
@@ -52,7 +62,7 @@ namespace RevEngine
                 Console.WriteLine(@" |_|  \_\___| \_/ |______|_| |_|\__, |_|_| |_|\___|");
                 Console.WriteLine(@"                                 __/ |             ");
                 Console.WriteLine(@"                                |___/              ");
-                Console.WriteLine(@"             RevEngine (debug version) by Naamloos!");
+                Console.WriteLine(@"                          RevEngine (debug version)");
                 Console.WriteLine(@" ");
                 Console.WriteLine(@" ");
                 Console.WriteLine("Initializing GLUT");
