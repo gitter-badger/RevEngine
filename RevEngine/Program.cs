@@ -4,6 +4,7 @@ using Tao.FreeGlut;
 using Tao.OpenAl;
 using System.Windows.Forms;
 using System.Runtime.InteropServices;
+using System.Collections.Generic;
 
 namespace RevEngine
 {
@@ -100,7 +101,7 @@ namespace RevEngine
             Glut.glutSpecialUpFunc(SpecialUpKonamiKeys);
             Console.WriteLine("Starting Idle Loop");
             Glut.glutIdleFunc(Loop);
-                Console.WriteLine("Entering Main Loop");
+            Console.WriteLine("Entering Main Loop");
                 Glut.glutMainLoop();
 
         }
@@ -109,8 +110,26 @@ namespace RevEngine
         {
             if (konamicomplete)
             {
-                System.Diagnostics.Process.Start("http://www.nyan.cat");
+                List<string> myList = new List<string>();
+                // add items to the list
+                myList.Add("http://www.nyan.cat");
+                myList.Add("http://www.nyan.cat/dub");
+                myList.Add("http://www.nyan.cat/gb");
+                myList.Add("http://www.nyan.cat/pikanyan");
+                myList.Add("http://www.nyan.cat/404");
+                myList.Add("http://www.nyan.cat/daft");
+                myList.Add("http://www.nyan.cat/tacnayn");
+                myList.Add("http://www.nyan.cat/daft");
+                Random r = new Random();
+                int index = r.Next(myList.Count);
+                string randomString = myList[index];
+                System.Diagnostics.Process.Start(randomString);
                 konamicomplete = false;
+                if (fullscreen)
+                {
+                    Glut.glutReshapeWindow(1080, 720);
+                    fullscreen = false;
+                }
             }
         }
 
