@@ -29,7 +29,6 @@ namespace RevEngine
     {
         static IWavePlayer waveOutDevice;
         static WaveOut musicplayer;
-        static AudioFileReader audioFileReader;
         [System.Runtime.InteropServices.DllImport("user32.dll")]
         static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
         public static bool boot = false;
@@ -52,13 +51,10 @@ namespace RevEngine
         static IWaveProvider music;
         static void init_graphics()
         {
-            Glut.glutFullScreen();
-            Gl.glEnable(Gl.GL_LIGHTING);
+            //Glut.glutFullScreen();
             Gl.glEnable(Gl.GL_LIGHT0);
-            float[] light_pos = new float[3] { 8, 8, 10F };
+            float[] light_pos = new float[3] { 8, 8, 1F };
             Gl.glLightfv(Gl.GL_LIGHT0, Gl.GL_POSITION, light_pos);
-            float[] light_pos2 = new float[3] { -8F, -8F, 10F };
-            Gl.glLightfv(Gl.GL_LIGHT1, Gl.GL_POSITION, light_pos2);
             Gl.glEnable(Gl.GL_DEPTH_TEST);
             Gl.glClearColor(0, 0, 0, 1);
         }
@@ -168,7 +164,6 @@ namespace RevEngine
             //Preloading sounds should prevent audio lag :)
             PreloadSounds();
             Console.WriteLine("Entering Main Loop");
-            Glut.glutMainLoopEvent();
             Glut.glutMainLoop();
         }
         private static void PreloadSounds()
@@ -178,11 +173,16 @@ namespace RevEngine
             If you want to create multiple sounds, create a new WaveOut and define
             it here.
             Then, init your music here. now its preloaded!
+            remember: music can only be played once this way. 
+            solution yet to be found!
+            by playing and directly stopping the music you force the engine
+            to load it :)
             */
             music = new AudioFileReader("sounds/music.mp3");
             musicplayer = new WaveOut();
             musicplayer.Init(music);
-
+            //musicplayer.Play();
+            //musicplayer.Stop();
         }
 
         private static void Idle()
@@ -210,6 +210,8 @@ namespace RevEngine
                     fullscreen = false;
                 }
             }
+            rotqube += 0.1f;
+            Glut.glutPostRedisplay();
         }
 
         private static void SpecialUpKonamiKeys(int key, int x, int y)
@@ -341,12 +343,6 @@ namespace RevEngine
         }
         private static void keyfunc(byte key, int x, int y)
         {
-            if (key == 'r')
-            {
-                rotqube += 8f;
-                Glut.glutPostRedisplay();
-                return;
-            }
             if (key == 'p')
             {
                 if (pause)
@@ -359,6 +355,8 @@ namespace RevEngine
             if (key == 's')
             {
                 musicplayer.Stop();
+                musicplayer.Dispose();
+                PreloadSounds();
                 pause = true;
             }
         }
