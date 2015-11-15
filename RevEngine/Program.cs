@@ -189,19 +189,18 @@ namespace RevEngine
         {
             if (konamicomplete)
             {
-                List<string> myList = new List<string>();
-                // add items to the list
-                myList.Add("http://www.nyan.cat");
-                myList.Add("http://www.nyan.cat/dub");
-                myList.Add("http://www.nyan.cat/gb");
-                myList.Add("http://www.nyan.cat/pikanyan");
-                myList.Add("http://www.nyan.cat/404");
-                myList.Add("http://www.nyan.cat/daft");
-                myList.Add("http://www.nyan.cat/tacnayn");
-                myList.Add("http://www.nyan.cat/daft");
+                List<string> konamilist = new List<string>();
+                konamilist.Add("http://www.nyan.cat");
+                konamilist.Add("http://www.nyan.cat/dub");
+                konamilist.Add("http://www.nyan.cat/gb");
+                konamilist.Add("http://www.nyan.cat/pikanyan");
+                konamilist.Add("http://www.nyan.cat/404");
+                konamilist.Add("http://www.nyan.cat/daft");
+                konamilist.Add("http://www.nyan.cat/tacnayn");
+                konamilist.Add("http://www.nyan.cat/daft");
                 Random r = new Random();
-                int index = r.Next(myList.Count);
-                string randomString = myList[index];
+                int index = r.Next(konamilist.Count);
+                string randomString = konamilist[index];
                 System.Diagnostics.Process.Start(randomString);
                 konamicomplete = false;
                 if (fullscreen)
@@ -362,7 +361,6 @@ namespace RevEngine
         }
         private static void keyupfunc(byte key, int x, int y)
         {
-            // press space to exit!
             if (key == 'q')
             {
                 Console.WriteLine("Stopping Program");
