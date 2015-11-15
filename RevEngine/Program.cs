@@ -5,6 +5,22 @@ using Tao.OpenAl;
 using System.Windows.Forms;
 using System.Runtime.InteropServices;
 using System.Collections.Generic;
+//OpenGL datatypes
+using GLbitfield = System.UInt32;
+using GLboolean = System.Boolean;
+using GLbyte = System.SByte;
+using GLclampf = System.Single;
+using GLdouble = System.Double;
+using GLenum = System.UInt32;
+using GLfloat = System.Single;
+using GLint = System.Int32;
+using GLshort = System.Int16;
+using GLsizei = System.Int32;
+using GLubyte = System.Byte;
+using GLuint = System.UInt32;
+using GLushort = System.UInt16;
+using GLvoid = System.IntPtr;
+//DO NOT REMOVE
 
 namespace RevEngine
 {
@@ -29,15 +45,19 @@ namespace RevEngine
         static bool bkonami = false;
         static bool akonami = false;
         static bool konamicomplete = false;
+
         // end of bools for konami code
+        static GLfloat rotqube = 0.0f;
 
         static void init_graphics()
         {
             Glut.glutFullScreen();
             Gl.glEnable(Gl.GL_LIGHTING);
             Gl.glEnable(Gl.GL_LIGHT0);
-            float[] light_pos = new float[3] { 0, 1, 3F };
+            float[] light_pos = new float[3] { 8, 8, 10F };
             Gl.glLightfv(Gl.GL_LIGHT0, Gl.GL_POSITION, light_pos);
+            float[] light_pos2 = new float[3] { -8F, -8F, 10F };
+            Gl.glLightfv(Gl.GL_LIGHT1, Gl.GL_POSITION, light_pos2);
             Gl.glEnable(Gl.GL_DEPTH_TEST);
             Gl.glClearColor(0, 0, 0, 1);
         }
@@ -47,9 +67,46 @@ namespace RevEngine
             Gl.glClear(Gl.GL_COLOR_BUFFER_BIT | Gl.GL_DEPTH_BUFFER_BIT);
             Gl.glLoadIdentity();
             Glu.gluLookAt(0, 0, 5, 0, 0, 1, 0, 5, 0);
-            Glut.glutSolidIcosahedron();
-            
-            Glut.glutSwapBuffers();
+            //Glut.glutSolidIcosahedron();
+                //NEW//////////////////NEW//////////////////NEW//////////////////NEW/////////////
+                Gl.glTranslatef(0.0f, 0.0f, -7.0f);    // Translate Into The Screen 7.0 Units
+                Gl.glRotatef(rotqube, 0.0f, 1.0f, 0.0f);   // Rotate The cube around the Y axis
+                Gl.glRotatef(rotqube, 1.0f, 1.0f, 3.0f);
+                Gl.glBegin(Gl.GL_QUADS);      // Draw The Cube Using quads
+                Gl.glColor3f(0.0f, 1.0f, 0.0f);    // Color Blue
+                Gl.glVertex3f(1.0f, 1.0f, -1.0f);  // Top Right Of The Quad (Top)
+                Gl.glVertex3f(-1.0f, 1.0f, -1.0f); // Top Left Of The Quad (Top)
+                Gl.glVertex3f(-1.0f, 1.0f, 1.0f);  // Bottom Left Of The Quad (Top)
+                Gl.glVertex3f(1.0f, 1.0f, 1.0f);   // Bottom Right Of The Quad (Top)
+                Gl.glColor3f(1.0f, 0.5f, 0.0f);    // Color Orange
+                Gl.glVertex3f(1.0f, -1.0f, 1.0f);  // Top Right Of The Quad (Bottom)
+                Gl.glVertex3f(-1.0f, -1.0f, 1.0f); // Top Left Of The Quad (Bottom)
+                Gl.glVertex3f(-1.0f, -1.0f, -1.0f);    // Bottom Left Of The Quad (Bottom)
+                Gl.glVertex3f(1.0f, -1.0f, -1.0f); // Bottom Right Of The Quad (Bottom)
+                Gl.glColor3f(1.0f, 0.0f, 0.0f);    // Color Red	
+                Gl.glVertex3f(1.0f, 1.0f, 1.0f);   // Top Right Of The Quad (Front)
+                Gl.glVertex3f(-1.0f, 1.0f, 1.0f);  // Top Left Of The Quad (Front)
+                Gl.glVertex3f(-1.0f, -1.0f, 1.0f); // Bottom Left Of The Quad (Front)
+                Gl.glVertex3f(1.0f, -1.0f, 1.0f);  // Bottom Right Of The Quad (Front)
+                Gl.glColor3f(1.0f, 1.0f, 0.0f);    // Color Yellow
+                Gl.glVertex3f(1.0f, -1.0f, -1.0f); // Top Right Of The Quad (Back)
+                Gl.glVertex3f(-1.0f, -1.0f, -1.0f);    // Top Left Of The Quad (Back)
+                Gl.glVertex3f(-1.0f, 1.0f, -1.0f); // Bottom Left Of The Quad (Back)
+                Gl.glVertex3f(1.0f, 1.0f, -1.0f);  // Bottom Right Of The Quad (Back)
+                Gl.glColor3f(0.0f, 0.0f, 1.0f);    // Color Blue
+                Gl.glVertex3f(-1.0f, 1.0f, 1.0f);  // Top Right Of The Quad (Left)
+                Gl.glVertex3f(-1.0f, 1.0f, -1.0f); // Top Left Of The Quad (Left)
+                Gl.glVertex3f(-1.0f, -1.0f, -1.0f);    // Bottom Left Of The Quad (Left)
+                Gl.glVertex3f(-1.0f, -1.0f, 1.0f); // Bottom Right Of The Quad (Left)
+                Gl.glColor3f(1.0f, 0.0f, 1.0f);    // Color Violet
+                Gl.glVertex3f(1.0f, 1.0f, -1.0f);  // Top Right Of The Quad (Right)
+                Gl.glVertex3f(1.0f, 1.0f, 1.0f);   // Top Left Of The Quad (Right)
+                Gl.glVertex3f(1.0f, -1.0f, 1.0f);  // Bottom Left Of The Quad (Right)
+                Gl.glVertex3f(1.0f, -1.0f, -1.0f); // Bottom Right Of The Quad (Right)
+                Gl.glEnd();            // End Drawing The Cube
+                                       //NEW//////////////////NEW//////////////////NEW//////////////////NEW/////////////
+                Glut.glutSwapBuffers();
+            return;
         }
 
         static void on_reshape(int w, int h)
@@ -89,24 +146,26 @@ namespace RevEngine
                 Glut.glutInitWindowSize(1080, 720);
                 Console.WriteLine("Creating Window");
                 Glut.glutCreateWindow("Rev");
-                Console.WriteLine("Initializing Graphics");
+            Console.WriteLine("Initializing Graphics");
                 init_graphics();
                 Console.WriteLine("Rendering Screen");
                 Glut.glutDisplayFunc(on_display);
                 Console.WriteLine("Setting Perspective etc");
                 Glut.glutReshapeFunc(on_reshape);
-                Console.WriteLine("Starting Key Reader");
+            Console.WriteLine("Starting Key held reader");
+            Glut.glutKeyboardFunc(keyfunc);
+                Console.WriteLine("Starting Key Up Reader");
                 Glut.glutKeyboardUpFunc(keyupfunc);
             Console.WriteLine("Starting Secret Special Key Reader");
             Glut.glutSpecialUpFunc(SpecialUpKonamiKeys);
-            Console.WriteLine("Starting Idle Loop");
-            Glut.glutIdleFunc(Loop);
+            Console.WriteLine("Starting Idle Function");
+            Glut.glutIdleFunc(Idle);
             Console.WriteLine("Entering Main Loop");
+            Glut.glutMainLoopEvent();
                 Glut.glutMainLoop();
-
         }
 
-        private static void Loop()
+        private static void Idle()
         {
             if (konamicomplete)
             {
@@ -260,7 +319,15 @@ namespace RevEngine
                     break;
             }
         }
-
+        private static void keyfunc(byte key, int x, int y)
+        {
+            if (key == 'r')
+            {
+                rotqube += 8f;
+                Glut.glutPostRedisplay();
+                return;
+            }
+        }
         private static void keyupfunc(byte key, int x, int y)
         {
             // press space to exit!
