@@ -28,13 +28,13 @@ namespace RevEngine
     class Program
     {
         static IWavePlayer waveOutDevice;
+        static WaveOut musicplayer;
         static AudioFileReader audioFileReader;
         [System.Runtime.InteropServices.DllImport("user32.dll")]
         static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
-        public static string status;
         public static bool boot = false;
         public static bool fullscreen = true;
-
+        static bool pause = true;
         //bools for konami code
         static bool up1konami = true;
         static bool up2konami = false;
@@ -47,10 +47,9 @@ namespace RevEngine
         static bool bkonami = false;
         static bool akonami = false;
         static bool konamicomplete = false;
-
         // end of bools for konami code
         static GLfloat rotqube = 0.0f;
-
+        static IWaveProvider music;
         static void init_graphics()
         {
             Glut.glutFullScreen();
@@ -70,44 +69,44 @@ namespace RevEngine
             Gl.glLoadIdentity();
             Glu.gluLookAt(0, 0, 5, 0, 0, 1, 0, 5, 0);
             //Glut.glutSolidIcosahedron();
-                //NEW//////////////////NEW//////////////////NEW//////////////////NEW/////////////
-                Gl.glTranslatef(0.0f, 0.0f, -7.0f);    // Translate Into The Screen 7.0 Units
-                Gl.glRotatef(rotqube, 0.0f, 1.0f, 0.0f);   // Rotate The cube around the Y axis
-                Gl.glRotatef(rotqube, 1.0f, 1.0f, 3.0f);
-                Gl.glBegin(Gl.GL_QUADS);      // Draw The Cube Using quads
-                Gl.glColor3f(0.0f, 1.0f, 0.0f);    // Color Blue
-                Gl.glVertex3f(1.0f, 1.0f, -1.0f);  // Top Right Of The Quad (Top)
-                Gl.glVertex3f(-1.0f, 1.0f, -1.0f); // Top Left Of The Quad (Top)
-                Gl.glVertex3f(-1.0f, 1.0f, 1.0f);  // Bottom Left Of The Quad (Top)
-                Gl.glVertex3f(1.0f, 1.0f, 1.0f);   // Bottom Right Of The Quad (Top)
-                Gl.glColor3f(1.0f, 0.5f, 0.0f);    // Color Orange
-                Gl.glVertex3f(1.0f, -1.0f, 1.0f);  // Top Right Of The Quad (Bottom)
-                Gl.glVertex3f(-1.0f, -1.0f, 1.0f); // Top Left Of The Quad (Bottom)
-                Gl.glVertex3f(-1.0f, -1.0f, -1.0f);    // Bottom Left Of The Quad (Bottom)
-                Gl.glVertex3f(1.0f, -1.0f, -1.0f); // Bottom Right Of The Quad (Bottom)
-                Gl.glColor3f(1.0f, 0.0f, 0.0f);    // Color Red	
-                Gl.glVertex3f(1.0f, 1.0f, 1.0f);   // Top Right Of The Quad (Front)
-                Gl.glVertex3f(-1.0f, 1.0f, 1.0f);  // Top Left Of The Quad (Front)
-                Gl.glVertex3f(-1.0f, -1.0f, 1.0f); // Bottom Left Of The Quad (Front)
-                Gl.glVertex3f(1.0f, -1.0f, 1.0f);  // Bottom Right Of The Quad (Front)
-                Gl.glColor3f(1.0f, 1.0f, 0.0f);    // Color Yellow
-                Gl.glVertex3f(1.0f, -1.0f, -1.0f); // Top Right Of The Quad (Back)
-                Gl.glVertex3f(-1.0f, -1.0f, -1.0f);    // Top Left Of The Quad (Back)
-                Gl.glVertex3f(-1.0f, 1.0f, -1.0f); // Bottom Left Of The Quad (Back)
-                Gl.glVertex3f(1.0f, 1.0f, -1.0f);  // Bottom Right Of The Quad (Back)
-                Gl.glColor3f(0.0f, 0.0f, 1.0f);    // Color Blue
-                Gl.glVertex3f(-1.0f, 1.0f, 1.0f);  // Top Right Of The Quad (Left)
-                Gl.glVertex3f(-1.0f, 1.0f, -1.0f); // Top Left Of The Quad (Left)
-                Gl.glVertex3f(-1.0f, -1.0f, -1.0f);    // Bottom Left Of The Quad (Left)
-                Gl.glVertex3f(-1.0f, -1.0f, 1.0f); // Bottom Right Of The Quad (Left)
-                Gl.glColor3f(1.0f, 0.0f, 1.0f);    // Color Violet
-                Gl.glVertex3f(1.0f, 1.0f, -1.0f);  // Top Right Of The Quad (Right)
-                Gl.glVertex3f(1.0f, 1.0f, 1.0f);   // Top Left Of The Quad (Right)
-                Gl.glVertex3f(1.0f, -1.0f, 1.0f);  // Bottom Left Of The Quad (Right)
-                Gl.glVertex3f(1.0f, -1.0f, -1.0f); // Bottom Right Of The Quad (Right)
-                Gl.glEnd();            // End Drawing The Cube
-                                       //NEW//////////////////NEW//////////////////NEW//////////////////NEW/////////////
-                Glut.glutSwapBuffers();
+            //NEW//////////////////NEW//////////////////NEW//////////////////NEW/////////////
+            Gl.glTranslatef(0.0f, 0.0f, -7.0f);    // Translate Into The Screen 7.0 Units
+            Gl.glRotatef(rotqube, 0.0f, 1.0f, 0.0f);   // Rotate The cube around the Y axis
+            Gl.glRotatef(rotqube, 1.0f, 1.0f, 3.0f);
+            Gl.glBegin(Gl.GL_QUADS);      // Draw The Cube Using quads
+            Gl.glColor3f(0.0f, 1.0f, 0.0f);    // Color Blue
+            Gl.glVertex3f(1.0f, 1.0f, -1.0f);  // Top Right Of The Quad (Top)
+            Gl.glVertex3f(-1.0f, 1.0f, -1.0f); // Top Left Of The Quad (Top)
+            Gl.glVertex3f(-1.0f, 1.0f, 1.0f);  // Bottom Left Of The Quad (Top)
+            Gl.glVertex3f(1.0f, 1.0f, 1.0f);   // Bottom Right Of The Quad (Top)
+            Gl.glColor3f(1.0f, 0.5f, 0.0f);    // Color Orange
+            Gl.glVertex3f(1.0f, -1.0f, 1.0f);  // Top Right Of The Quad (Bottom)
+            Gl.glVertex3f(-1.0f, -1.0f, 1.0f); // Top Left Of The Quad (Bottom)
+            Gl.glVertex3f(-1.0f, -1.0f, -1.0f);    // Bottom Left Of The Quad (Bottom)
+            Gl.glVertex3f(1.0f, -1.0f, -1.0f); // Bottom Right Of The Quad (Bottom)
+            Gl.glColor3f(1.0f, 0.0f, 0.0f);    // Color Red	
+            Gl.glVertex3f(1.0f, 1.0f, 1.0f);   // Top Right Of The Quad (Front)
+            Gl.glVertex3f(-1.0f, 1.0f, 1.0f);  // Top Left Of The Quad (Front)
+            Gl.glVertex3f(-1.0f, -1.0f, 1.0f); // Bottom Left Of The Quad (Front)
+            Gl.glVertex3f(1.0f, -1.0f, 1.0f);  // Bottom Right Of The Quad (Front)
+            Gl.glColor3f(1.0f, 1.0f, 0.0f);    // Color Yellow
+            Gl.glVertex3f(1.0f, -1.0f, -1.0f); // Top Right Of The Quad (Back)
+            Gl.glVertex3f(-1.0f, -1.0f, -1.0f);    // Top Left Of The Quad (Back)
+            Gl.glVertex3f(-1.0f, 1.0f, -1.0f); // Bottom Left Of The Quad (Back)
+            Gl.glVertex3f(1.0f, 1.0f, -1.0f);  // Bottom Right Of The Quad (Back)
+            Gl.glColor3f(1.0f, 0.0f, 1.0f);    // Color Blue
+            Gl.glVertex3f(-1.0f, 1.0f, 1.0f);  // Top Right Of The Quad (Left)
+            Gl.glVertex3f(-1.0f, 1.0f, -1.0f); // Top Left Of The Quad (Left)
+            Gl.glVertex3f(-1.0f, -1.0f, -1.0f);    // Bottom Left Of The Quad (Left)
+            Gl.glVertex3f(-1.0f, -1.0f, 1.0f); // Bottom Right Of The Quad (Left)
+            Gl.glColor3f(1.0f, 0.0f, 1.0f);    // Color Violet
+            Gl.glVertex3f(1.0f, 1.0f, -1.0f);  // Top Right Of The Quad (Right)
+            Gl.glVertex3f(1.0f, 1.0f, 1.0f);   // Top Left Of The Quad (Right)
+            Gl.glVertex3f(1.0f, -1.0f, 1.0f);  // Bottom Left Of The Quad (Right)
+            Gl.glVertex3f(1.0f, -1.0f, -1.0f); // Bottom Right Of The Quad (Right)
+            Gl.glEnd();            // End Drawing The Cube
+                                   //NEW//////////////////NEW//////////////////NEW//////////////////NEW/////////////
+            Glut.glutSwapBuffers();
             return;
         }
 
@@ -116,7 +115,7 @@ namespace RevEngine
             Gl.glMatrixMode(Gl.GL_PROJECTION);
             Gl.glLoadIdentity();
             Gl.glViewport(0, 0, w, h);
-            Glu.gluPerspective(40, (35*w) / (20*h), 1, 100);
+            Glu.gluPerspective(40, (35 * w) / (20 * h), 1, 100);
             Gl.glMatrixMode(Gl.GL_MODELVIEW);
         }
 
@@ -125,48 +124,65 @@ namespace RevEngine
             var currentProcess = System.Diagnostics.Process.GetCurrentProcess();
             IntPtr hWnd = currentProcess.MainWindowHandle;//FindWindow(null, "Your console windows caption"); //put your console window caption here
             ShowWindow(hWnd, 0); // 0 = SW_HIDE
-            Console.Title = "Rev Debugging Console" + status;
-                Form Form1 = new Form1();
-            
-                Application.Run(Form1);
+            Console.Title = "Rev Debugging Console";
+            Form Form1 = new Form1();
+
+            Application.Run(Form1);
+            //Comment out the following line to keep console hidden
             ShowWindow(hWnd, 3); // 0 = SW_HIDE
-            
+
             Console.WriteLine(@"  _____            ______             _            ");
-                Console.WriteLine(@" |  __ \          |  ____|           (_)           ");
-                Console.WriteLine(@" | |__) |_____   _| |__   _ __   __ _ _ _ __   ___ ");
-                Console.WriteLine(@" |  _  // _ \ \ / /  __| | '_ \ / _` | | '_ \ / _ \");
-                Console.WriteLine(@" | | \ \  __/\ V /| |____| | | | (_| | | | | |  __/");
-                Console.WriteLine(@" |_|  \_\___| \_/ |______|_| |_|\__, |_|_| |_|\___|");
-                Console.WriteLine(@"                                 __/ |             ");
-                Console.WriteLine(@"                                |___/              ");
-                Console.WriteLine(@"                          RevEngine (debug version)");
-                Console.WriteLine(@" ");
-                Console.WriteLine(@" ");
-                Console.WriteLine("Initializing GLUT");
-                Glut.glutInit();
-                Console.WriteLine("Setting Window Size");
-                Glut.glutInitWindowSize(1080, 720);
-                Console.WriteLine("Creating Window");
-                Glut.glutCreateWindow("Rev");
+            Console.WriteLine(@" |  __ \          |  ____|           (_)           ");
+            Console.WriteLine(@" | |__) |_____   _| |__   _ __   __ _ _ _ __   ___ ");
+            Console.WriteLine(@" |  _  // _ \ \ / /  __| | '_ \ / _` | | '_ \ / _ \");
+            Console.WriteLine(@" | | \ \  __/\ V /| |____| | | | (_| | | | | |  __/");
+            Console.WriteLine(@" |_|  \_\___| \_/ |______|_| |_|\__, |_|_| |_|\___|");
+            Console.WriteLine(@"                                 __/ |             ");
+            Console.WriteLine(@"                                |___/              ");
+            Console.WriteLine(@"                          RevEngine (debug version)");
+            Console.WriteLine(@" ");
+            Console.WriteLine(@" ");
+            Console.WriteLine("Initializing GLUT");
+            Glut.glutInit();
+            Console.WriteLine("Setting Window Size");
+            Glut.glutInitWindowSize(1080, 720);
+            Console.WriteLine("Creating Window");
+            Glut.glutCreateWindow("Rev");
             Console.WriteLine("Initializing Graphics");
-                init_graphics();
-                Console.WriteLine("Rendering Screen");
-                Glut.glutDisplayFunc(on_display);
-                Console.WriteLine("Setting Perspective etc");
-                Glut.glutReshapeFunc(on_reshape);
+            init_graphics();
+            Console.WriteLine("Rendering Screen");
+            Glut.glutDisplayFunc(on_display);
+            Console.WriteLine("Setting Perspective etc");
+            Glut.glutReshapeFunc(on_reshape);
             Console.WriteLine("Starting Key held reader");
             Glut.glutKeyboardFunc(keyfunc);
-                Console.WriteLine("Starting Key Up Reader");
-                Glut.glutKeyboardUpFunc(keyupfunc);
+            Console.WriteLine("Starting Key Up Reader");
+            Glut.glutKeyboardUpFunc(keyupfunc);
             Console.WriteLine("Starting Secret Special Key Reader");
             Glut.glutSpecialUpFunc(SpecialUpKonamiKeys);
             Console.WriteLine("Starting Idle Function");
             Glut.glutIdleFunc(Idle);
-            Console.WriteLine("Starting Audio listener");
+            Console.WriteLine("Starting waveOutDevice");
             waveOutDevice = new WaveOut();
+            Console.WriteLine("Preloading Sounds");
+            //Preloading sounds should prevent audio lag :)
+            PreloadSounds();
             Console.WriteLine("Entering Main Loop");
             Glut.glutMainLoopEvent();
-                Glut.glutMainLoop();
+            Glut.glutMainLoop();
+        }
+        private static void PreloadSounds()
+        {
+            /*
+            to preload sounds, create an IWaveProvider, and define the object here
+            If you want to create multiple sounds, create a new WaveOut and define
+            it here.
+            Then, init your music here. now its preloaded!
+            */
+            music = new AudioFileReader("sounds/music.mp3");
+            musicplayer = new WaveOut();
+            musicplayer.Init(music);
+
         }
 
         private static void Idle()
@@ -264,7 +280,7 @@ namespace RevEngine
                 case 101:
                     //UP
                     Console.WriteLine("Up button pressed");
-                    if(!up1konami && !up2konami)
+                    if (!up1konami && !up2konami)
                     {
                         up1konami = true;
                         up2konami = false;
@@ -333,13 +349,17 @@ namespace RevEngine
             }
             if (key == 'p')
             {
-                audioFileReader = new AudioFileReader("music.mp3");
-                waveOutDevice.Init(audioFileReader);
-                waveOutDevice.Play();
+                if (pause)
+                {
+                    musicplayer.Play();
+                    Console.WriteLine("Started Music");
+                    pause = false;
+                }
             }
             if (key == 's')
             {
-                waveOutDevice.Stop();
+                musicplayer.Stop();
+                pause = true;
             }
         }
         private static void keyupfunc(byte key, int x, int y)
@@ -348,7 +368,7 @@ namespace RevEngine
             if (key == 'q')
             {
                 Console.WriteLine("Stopping Program");
-                waveOutDevice.Stop();
+                musicplayer.Stop();
                 Environment.Exit(0);
             }
             if (key == 'f')
