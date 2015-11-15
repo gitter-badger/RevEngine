@@ -2,6 +2,8 @@
 ####A not so REVolutionary ENGINE
 
 
-using TAO - http://sourceforge.net/projects/taoframework/ (this might be outdated, idc >:)   )
+using TAO - http://sourceforge.net/projects/taoframework/
+
+using NAudio - http://naudio.codeplex.com/
 
 FreeGLUT documentation - http://freeglut.sourceforge.net/docs/api.php

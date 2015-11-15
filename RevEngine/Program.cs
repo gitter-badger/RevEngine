@@ -1,7 +1,8 @@
 ﻿using System;
 using Tao.OpenGl;
 using Tao.FreeGlut;
-using Tao.OpenAl;
+using NAudio;
+using NAudio.Wave;
 using System.Windows.Forms;
 using System.Runtime.InteropServices;
 using System.Collections.Generic;
@@ -24,9 +25,10 @@ using GLvoid = System.IntPtr;
 
 namespace RevEngine
 {
-
     class Program
     {
+        static IWavePlayer waveOutDevice;
+        static AudioFileReader audioFileReader;
         [System.Runtime.InteropServices.DllImport("user32.dll")]
         static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
         public static string status;
@@ -160,6 +162,8 @@ namespace RevEngine
             Glut.glutSpecialUpFunc(SpecialUpKonamiKeys);
             Console.WriteLine("Starting Idle Function");
             Glut.glutIdleFunc(Idle);
+            Console.WriteLine("Starting Audio listener");
+            waveOutDevice = new WaveOut();
             Console.WriteLine("Entering Main Loop");
             Glut.glutMainLoopEvent();
                 Glut.glutMainLoop();
@@ -327,6 +331,16 @@ namespace RevEngine
                 Glut.glutPostRedisplay();
                 return;
             }
+            if (key == 'p')
+            {
+                audioFileReader = new AudioFileReader("music.mp3");
+                waveOutDevice.Init(audioFileReader);
+                waveOutDevice.Play();
+            }
+            if (key == 's')
+            {
+                waveOutDevice.Stop();
+            }
         }
         private static void keyupfunc(byte key, int x, int y)
         {
@@ -334,6 +348,7 @@ namespace RevEngine
             if (key == 'q')
             {
                 Console.WriteLine("Stopping Program");
+                waveOutDevice.Stop();
                 Environment.Exit(0);
             }
             if (key == 'f')
