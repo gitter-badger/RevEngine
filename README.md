@@ -5,8 +5,12 @@ The current version requires:
 - A 'sounds' folder with a mp3 file in it called 'music.mp3' for music playback
 - TAO.OpenGL.dll, freeglut.dll, NAudio.dll
 
-using TAO - http://sourceforge.net/projects/taoframework/
+DLL files pack will be released soonish!
 
-using NAudio - http://naudio.codeplex.com/
+using TAO - http://sourceforge.net/projects/taoframework/ for OpenGL & FreeGLUT
+
+using NAudio - http://naudio.codeplex.com/ for audio ofcourse
+
+using Jint - http://jint.codeplex.com/ for Javascript
 
 FreeGLUT documentation - http://freeglut.sourceforge.net/docs/api.php
