@@ -7,8 +7,10 @@ The current version requires:
 
 DLL files pack will be released soonish!
 
-using TAO - http://sourceforge.net/projects/taoframework/
+using TAO - http://sourceforge.net/projects/taoframework/ for OpenGL & FreeGLUT
 
-using NAudio - http://naudio.codeplex.com/
+using NAudio - http://naudio.codeplex.com/ for audio ofcourse
+
+using Jint - http://jint.codeplex.com/ for Javascript
 
 FreeGLUT documentation - http://freeglut.sourceforge.net/docs/api.php
