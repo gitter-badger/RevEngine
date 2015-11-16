@@ -1,6 +1,8 @@
 ![Imgur](http://i.imgur.com/x91vgSu.png)
 ####A not so REVolutionary ENGINE
 
+[![Join the chat at https://gitter.im/NaamloosDT/RevEngine](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/NaamloosDT/RevEngine?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 The current version requires:
 - A 'sounds' folder with a mp3 file in it called 'music.mp3' for music playback
 - TAO.OpenGL.dll, freeglut.dll, NAudio.dll, Jint.dll
