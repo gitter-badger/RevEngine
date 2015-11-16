@@ -3,7 +3,7 @@
 
 The current version requires:
 - A 'sounds' folder with a mp3 file in it called 'music.mp3' for music playback
-- TAO.OpenGL.dll, freeglut.dll, NAudio.dll
+- TAO.OpenGL.dll, freeglut.dll, NAudio.dll, Jint.dll
 
 DLL files pack will be released soonish!
 
