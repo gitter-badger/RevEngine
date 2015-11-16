@@ -33,7 +33,7 @@ namespace RevEngine
         static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
         public static bool boot = false;
         public static bool fullscreen = true;
-        static bool pause = true;
+        static bool pause = false;
         //bools for konami code
         static bool up1konami = true;
         static bool up2konami = false;
@@ -126,7 +126,6 @@ namespace RevEngine
             Application.Run(Form1);
             //Comment out the following line to keep console hidden
             ShowWindow(hWnd, 3); // 0 = SW_HIDE
-
             Console.WriteLine(@"  _____            ______             _            ");
             Console.WriteLine(@" |  __ \          |  ____|           (_)           ");
             Console.WriteLine(@" | |__) |_____   _| |__   _ __   __ _ _ _ __   ___ ");
@@ -163,6 +162,8 @@ namespace RevEngine
             Console.WriteLine("Preloading Sounds");
             //Preloading sounds should prevent audio lag :)
             PreloadSounds();
+            musicplayer.Play();
+            Console.WriteLine("Started Music");
             Console.WriteLine("Entering Main Loop");
             Glut.glutMainLoop();
         }
@@ -187,6 +188,8 @@ namespace RevEngine
 
         private static void Idle()
         {
+            var jsint = new Javascript();
+            jsint.loop();
             if (konamicomplete)
             {
                 List<string> konamilist = new List<string>();
