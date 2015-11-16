@@ -11,6 +11,6 @@ using TAO - http://sourceforge.net/projects/taoframework/ for OpenGL & FreeGLUT
 
 using NAudio - http://naudio.codeplex.com/ for audio ofcourse
 
-using Jint - http://jint.codeplex.com/ for Javascript
+using Jint - http://jint.codeplex.com/ OR https://github.com/sebastienros/jint for Javascript
 
 FreeGLUT documentation - http://freeglut.sourceforge.net/docs/api.php
